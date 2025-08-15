@@ -31,6 +31,10 @@ export default defineConfig({
 					],
 				},
 				{
+					label: 'Java',
+					autogenerate: { directory: 'Java' },
+				},
+        {
 					label: 'ARM',
 					autogenerate: { directory: 'ARM-Processor' },
 				},
