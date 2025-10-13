@@ -30,7 +30,6 @@ class Season {
     }
 
     public final static Season SPRING = new Season("春天","温暖");
-    ...
     public final static Season WINTER = new Season("冬天","寒冷");
 }
 
@@ -65,7 +64,7 @@ class Enumeration {
 ```
 
 ```java
-PS D:\AProgram> javap Season.class
+$ javap Season.class
 Compiled from "Main.java"
 final class Season extends java.lang.Enum<Season> {
   public static final Season SPRING;
@@ -195,7 +194,7 @@ Java 程序在执行过程中所发生的异常事件可分为两类：
 
 ```java
 class AgeException extends RuntimeException {
-    public AgeException(String message) { //构造器
+    public AgeException(String message) {
         super(message);
     }
 }

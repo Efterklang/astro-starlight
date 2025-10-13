@@ -2,11 +2,17 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import catppuccin from "@catppuccin/starlight";
+import remarkMath from 'remark-math';
+import rehypeMathJax from "rehype-mathjax"
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections'
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
 // https://astro.build/config
 export default defineConfig({
+	markdown: {
+		remarkPlugins: [remarkMath],
+		rehypePlugins: [rehypeMathJax],
+	},
 	integrations: [
 		starlight({
 			title: 'Vluv\'s Wiki',
@@ -34,9 +40,13 @@ export default defineConfig({
 					label: 'Java',
 					autogenerate: { directory: 'Java' },
 				},
-        {
+				{
 					label: 'ARM',
 					autogenerate: { directory: 'ARM-Processor' },
+				},
+				{
+					label: 'Network',
+					autogenerate: { directory: '计网' },
 				},
 			],
 		}),
