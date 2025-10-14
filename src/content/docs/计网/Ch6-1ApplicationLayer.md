@@ -53,7 +53,7 @@ cover: https://assets.vluv.space/cover/Networks/application_layer1.webp
 
 #### Client And Server Process
 
-- [[ProcessvsThread#Process|进程]]：运行在端系统中的程序
+- 进程：运行在端系统中的程序
 - 同一主机上的两个进程通过内部进程通信机制进行通信
 - 不同主机上的进程通过交换报文(message)相互通信
 
