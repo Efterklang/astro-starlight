@@ -1,0 +1,152 @@
+---
+title: 树与二叉树
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## 二叉树
+
+### 相关定义
+
+- 根节点（root node）：位于二叉树顶层的节点，没有父节点。
+- 叶节点（leaf node）：没有子节点的节点，其两个指针均指向 `None` 。
+- 边（edge）：连接两个节点的线段，即节点引用（指针）。
+- 节点所在的层（level）：从顶至底递增，根节点所在层为 1 。
+- 节点的度（degree）：节点的子节点的数量。在二叉树中，度的取值范围是 0、1、2 。
+- 二叉树的高度（height）：从根节点到最远叶节点所经过的边的数量。
+- 节点的深度（depth）：从根节点到该节点所经过的边的数量。
+- 节点的高度（height）：从距离该节点最远的叶节点到该节点所经过的边的数量。
+
+### 树的类型
+
+<Tabs>
+  <TabItem label="满二叉树">
+    满二叉树(Perfect Binary Tree)是指除叶子节点外，每个节点都有左右两个子节点的二叉树。例如:
+    ```plaintext
+                1
+              /   \
+             2     3
+            / \   / \
+           4   5 6   7
+    ```
+  </TabItem>
+  <TabItem label="完全二叉树">
+    完全二叉树(Complete Binary Tree)指除最后一层外，每层节点都达到最大值，并且最后一层的节点从左到右依次排列的二叉树。例如：
+    ```plaintext
+                1
+              /   \
+             2     3
+            / \   /
+           4   5 6
+    ```
+  </TabItem>
+  <TabItem label="完满二叉树">
+    完满二叉树(Full Binary Tree)是指每个节点的度要么是0，要么是2的二叉树。例如:
+    ```plaintext
+                1
+              /   \
+             2     3
+            / \   / \
+           4   5 6   7
+              / \
+             8   9
+    ```
+    </TabItem>
+    <TabItem label="平衡二叉树">
+    平衡二叉树(AVL Tree)是指任意节点的左子树和右子树的高度差不超过1的二叉树。例如:
+    ```plaintext
+                1
+              /   \
+             2     3
+            / \
+           4   5
+    ```
+    </TabItem>
+</Tabs>
+
+
+### 树的遍历
+
+深度优先遍历（Depth-First Traversal, DFT）
+
+<Tabs>
+  <TabItem label="PreOrder">
+    ```c
+    void PreOrder(BiTree T){
+        if(T != NULL){
+            visit(T);
+            PreOrder(T->lchild);
+            PreOrder(T->rchild);
+        }
+    }
+    ```
+  </TabItem>
+  <TabItem label="InOrder">
+    ```c
+    void InOrder(BiTree T){
+        if(T != NULL){
+            InOrder(T->lchild);
+            visit(T);
+            InOrder(T->rchild);
+        }
+    }
+    ```
+  </TabItem>
+    <TabItem label="PostOrder">
+        ```c
+        void PostOrder(BiTree T){
+            if(T != NULL){
+                PostOrder(T->lchild);
+                PostOrder(T->rchild);
+                visit(T);
+            }
+        }
+        ```
+    </TabItem>
+</Tabs>
+
+
+广度优先遍历（Breadth-First Traversal, BFT）
+
+```python
+def level_order(root: TreeNode | None) -> list[int]:
+    """层序遍历"""
+    # 初始化队列，加入根节点
+    queue: deque[TreeNode] = deque()
+    queue.append(root)
+    # 初始化一个列表，用于保存遍历序列
+    res = []
+    while queue:
+        node: TreeNode = queue.popleft()  # 队列出队
+        res.append(node.val)  # 保存节点值
+        if node.left is not None:
+            queue.append(node.left)  # 左子节点入队
+        if node.right is not None:
+            queue.append(node.right)  # 右子节点入队
+    return res
+```
+
+### 由遍历序列构造二叉树
+
+在节点值不重复的前提下，以下两种遍历序列可以唯一确定一棵二叉树：
+
+- 前序+中序，[105. 从前序与中序遍历序列构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal)
+- 中序+后序，[106. 从中序与后序遍历序列构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal)
+
+### 二叉搜索树(BST)
+
+满足以下性质的二叉树称为二叉排序树(二叉搜索树)：
+
+- 若树为空，则它是一棵二叉排序树。
+- 若左子树非空，则左子树上所有结点的值均小于根结点的值。
+- 若右子树非空，则右子树上所有结点的值均大于根结点的值。
+- 左、右子树也分别是一棵二叉排序树。
+
+对二叉排序树进行中序遍历，可以得到一个递增的有序序列
+
+
+
+
+## Credits
+
+[第 7 章   树 - Hello 算法](https://www.hello-algo.com/chapter_tree/)
