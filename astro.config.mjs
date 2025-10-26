@@ -52,6 +52,14 @@ export default defineConfig({
 					label: 'Network',
 					autogenerate: { directory: '计网' },
 				},
+        {
+					label: 'CSS',
+					autogenerate: { directory: 'css' },
+				},
+        {
+          label: 'Linux',
+					autogenerate: { directory: 'Linux' },
+				}
 			],
 		}),
 	],

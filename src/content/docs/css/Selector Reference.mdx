@@ -1,0 +1,175 @@
+---
+title: CSS选择器修炼手册
+tags:
+  - CSS
+  - Web
+  - Selector
+  - Reference
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+> **Links**
+>
+> - https://www.w3schools.com/cssref/trysel.php，在线测试各种 CSS 选择器的效果。
+
+## Basic Selectors
+
+HTML 里的元素可以有多种属性:
+
+- **Element Type**：元素的类型，例如 `div`、`p`、`h1` 等
+- **Class**：类名，可以有多个类名，用空格分隔，例如`class="title is-3"`
+- **ID**：唯一标识符，例如 `id="main-title"`
+
+CSS 选择器可以根据这些属性来筛选元素。
+
+### Single Selectors
+
+例如下面的元素，其元素类型为 `h1`，类名为 `title` 和 `is-3`，ID 为 `main-title`
+
+<Tabs>
+  <TabItem label="HTML Demo">
+    ```html
+    <h1 class="title is-3" id="main-title">
+      Hello World
+    </h1>
+    <a href="https://example.com" title="Example Site">
+      Example
+    </a>
+    <button class="is-blue">Click Me</button>
+    ```
+  </TabItem>
+  <TabItem label="CSS Demo">
+    ```css h1 {}
+    .is-blue {}
+    #main-title {}
+    [title="Example Site"] {}
+    ```
+  </TabItem>
+</Tabs>
+
+| Selector     | Example                      | Description                                  |
+| ------------ | ---------------------------- | -------------------------------------------- |
+| `element`    | `p`, `h1`                    | 类型为`p`或`h1`的元素                        |
+| `.class`     | `.title`, `.is-3`            | 具有`title`或`is-3`类名的元素                |
+| `#id`        | `#main-title`                | 具有`main-title` ID 的元素                   |
+| `[attr=val]` | `[required]`,`[type="text"]` | 具有`required`属性或`type`属性为`text`的元素 |
+| `*`          | `*`                          | 选择所有元素。                               |
+
+对于属性选择器，除了使用 `[attr=value]` 进行精准匹配，还可使用以下方式进行更灵活的匹配：
+
+- `~=`：属性值中包含某个单词（以空格分隔）
+- `|=`：连字符匹配，如 `[lang|="en"]` ，即属性值为 `en` 或以 `en-` 开头
+- `^=`：属性值以某字符串开头
+- `$=`：属性值以某字符串结尾
+- `*=`：属性值包含某字符串
+
+### Selector list
+
+如果想同时为多种选择器应用相同的样式，可以使用逗号 `,` 将它们分隔开来。
+
+```css
+h1,
+.title {
+  color: blue;
+}
+```
+
+| Selector | Example      | Description                                       |
+| -------- | ------------ | ------------------------------------------------- |
+| `,`      | `h1, .title` | 同时为 `h1` 元素和具有 `title` 类名的元素应用样式 |
+
+### Combination Selectors
+
+也可将基础选择器进行组合，缩小定位范围，更专业一点的说法是提高“选择器的特异性”（Specificity）
+
+<Tabs>
+  <TabItem label="HTML Demo">
+    ```html
+    <div class="card is-shadowed">
+      <h1 class="title">Card Title</h1>
+      <p>This is some card content.</p>
+      <input type="text" required />
+    </div>
+    ```
+  </TabItem>
+  <TabItem label="CSS Demo">
+    ```css .card.is-shadowed {}
+    h1.title {}
+    input[required] {}
+    ```
+  </TabItem>
+</Tabs>
+
+| Selector             | Example           | Description                                       |
+| -------------------- | ----------------- | ------------------------------------------------- |
+| `element.class`      | `h1.title`        | 选择既是 `h1` 元素又包含 `title` 类名的元素       |
+| `.class1.class2`     | `.title.is-3`     | 选择同时拥有 `title` 和 `is-3` 类名的元素         |
+| `element[attr=value] | `input[required]` | 选择既是 `input` 元素又拥有 `required` 属性的元素 |
+
+## Combinators
+
+DOM 是一个树状结构，HTML 元素之间存在父子关系、兄弟关系等。对于 A,B，可以有以下几种关系：
+
+- **Descendant**：B 在 A 内部的任意层级位置，使用`A B`表示
+  - **Child**：B 在 A 的下一层级位置，使用 `A > B` 表示
+- **General Sibling**：B 和 A 具有相同的父元素，且 B 在 A 之后，使用`A ~ B`表示
+  - **Adjacent Sibling**：两者具有相同的父元素且 B 紧跟在 A 之后，使用`A + B`表示
+
+### CSS 嵌套语法糖
+
+CSS 预处理器（如 Sass、Less）以及一些现代 CSS 框架支持嵌套语法糖，后面 CSS 也支持了这种写法，可以更直观地表达层级关系。其中，`&` 表示父选择器本身。
+
+<Tabs>
+	<TabItem label="Before">
+		```css
+		.card { background: #fff; }
+		.card > h1 { font-size: 30px; }
+    	.card p { color: #666; }
+		.card + .card { margin-top: 20px; }
+    	.card.is-shadowed { border-color: blue; }
+		```
+	</TabItem>
+	<TabItem label="With Syntax Sugar">
+		```css
+		/* Nesting 示例 */
+		.card {
+			background: #fff;
+			> h1 { font-size: 30px; }
+			p { color: #666; }
+			& + .card { margin-top: 20px; }
+    		&.is-shadowed { border-color: blue; }
+    	}
+    	```
+    </TabItem>
+</Tabs>
+
+## Pseudo
+
+### Pseudo-classes
+
+伪类选择器[^1]用于选择处于特定状态的元素，例如鼠标悬停、已访问链接等。
+
+- `:hover`: 当鼠标悬停在元素上时应用样式
+- `:focus`: 当元素获得焦点时应用样式
+- ...
+
+### Pseudo-elements
+
+伪元素选择器[^2]用于对所选元素的特定部分进行样式设置，例如段落的首字母、内容的开头或结尾等。
+
+- `::before`: 在元素内容之前插入内容
+- `::after`: 在元素内容之后插入内容
+- ...
+
+## At-rules
+
+CSS 还支持一些特殊的 `@` 规则，用于定义媒体查询、字体导入等。
+
+- `@media`: 可用于定义响应式设计的媒体查询，例如 `@media (max-width: 600px) { ... }`
+- `@font-face`: 定义自定义字体
+- `@import`: 导入外部 CSS 文件
+- ...
+
+[^1]: [Pseudo-classes - CSS | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes)
+[^2]: [Pseudo-elements - CSS | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements)
