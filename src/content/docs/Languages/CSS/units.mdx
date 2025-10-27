@@ -1,0 +1,69 @@
+---
+title: CSS Units
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+[CSS 单位指南：CSS em、rem、vh、vw 等详解](https://www.freecodecamp.org/chinese/news/css-unit-guide/)
+[CSS Values and Units Module Level 3](https://www.w3.org/TR/css3-values/#absolute-lengths) 学习笔记
+
+## 绝对单位
+
+绝对单位 (Absolute Units) 可分为:
+
+1. Physical Units，物理单位，锚定物理尺寸，如 cm, mm, Q, in, pc, pt
+2. Visual angle unit(Pixel Unit)，视角单位/像素单位，锚定参考像素，如 px;
+
+| unit | name                                | equivalence         |
+| ---- | ----------------------------------- | ------------------- |
+| cm   | 厘米（centimeters）                 | 1cm = 96px/2.54     |
+| mm   | 毫米（millimeters）                 | 1mm = 1/10 × 1cm    |
+| Q    | 四分之一毫米（quarter-millimeters） | 1Q = 1/40 × 1cm     |
+| in   | 英寸（inches）                      | 1in = 2.54cm = 96px |
+| pc   | 皮卡（picas）                       | 1pc = 1/6 in        |
+| pt   | 点（points）                        | 1pt = 1/72 in       |
+| px   | 像素（pixels）                      | 1px ≈ 1/96 in[^1]   |
+
+## 相对单位
+
+### em, rem
+
+<Tabs>
+    <TabItem label="em">
+        em, 相对于当前元素的字体大小，例如对于下面的 CSS，h2 的字体大小是 32px (16px \* 2em)
+        ```css
+        .content {
+            font-size: 16px;
+        }
+
+        .content h2 {
+            font-size: 2em;
+        }
+        ```
+    </TabItem>
+    <TabItem label="rem">
+        rem, 相对于根元素（html 元素）的字体大小，例如对于下面的 CSS，h2 的字体大小是 24px (16px \* 1.5rem)
+
+        ```css
+        html {
+            font-size: 16px;
+        }
+        .content h2 {
+            font-size: 1.5rem;
+        }
+        ```
+    </TabItem>
+
+</Tabs>
+
+### vw, vh, vmin, vmax
+
+这些单位是相对于视口[^2]的尺寸
+
+- vw: 1vw = 视口宽度的 1%
+- vh: 1vh = 视口高度的 1%
+- vmin: 1vmin = 视口宽度和高度中较小的那个的 1%
+- vmax: 1vmax = 视口宽度和高度中较大的那个的 1%
+
+[^1]: 96px 并不总是等于 1 英寸，参考 [There Is No Such Thing As A CSS Absolute Unit — Smashing Magazine](https://www.smashingmagazine.com/2021/07/css-absolute-units/) 该文章了解其历史
+[^2]: 视口（viewport）是浏览器中用于显示网页内容的区域，不包括浏览器的工具栏、滚动条等界面元素。

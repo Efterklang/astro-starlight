@@ -1,133 +1,80 @@
 ---
 title: 应用层 ApplicationLayer Part Ⅰ
 date: 2024-06-07
-excerpt: 应用层与互联网冲浪活动息息相关，该部分主要介绍网络应用原理，Web&HTTP相关内容，电子邮箱原理。
 categories:
   - Dev
   - Network
 tags:
   - Network
   - HTTP
-cover: https://assets.vluv.space/cover/Networks/application_layer1.webp
 ---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
 
 ## Principles of Network Applications
 
 ### Network application architecture
 
-**应用程序体系结构**（application architecture）由应用程序研发者设计，规定了如何在各种端系统上组织该应用程序。现代网络应用程序中所使用的两种主流体系结构：**the client-server architecture 和 the peer-to-peer (P2P) architecture.**
+现代网络应用程序中所使用的两种主流体系结构：**the client-server architecture 和 the peer-to-peer (P2P) architecture.**
 
-<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-26-18-49-55.webp" alt="">
+<img
+  src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-26-18-49-55.webp"
+  alt="Network application architectures"
+/>
 
-#### Client-Server Architecture
+<Tabs>
+  <TabItem label="Client-Server Architecture">
+    - Server
 
-- Server
+      - 总是在线（always on host）；
+      - 永久的 IP 地址（permanent IP address）；
+      - 配置在数据中心（often in data centers）；
 
-  - 总是在线（always on host）；
-  - 永久的 IP 地址（permanent IP address）；
-  - 配置在数据中心（often in data centers）；
+    - Client
+      - 与服务器沟通联系；
+      - 被间歇性（intermittently）的连接；
+      - 拥有动态地址；
+      - 客户之间不直接联系；
 
-- Client
+  </TabItem>
+  <TabItem label="P2P Architecture">
+    - 没有总是打开的服务器
+    - 任意一对主机(peer)直接相互通信
+    - 对等方间歇连接并且可以改变 IP 地址
+    - 自我可扩展性 self-scalability
 
-  - 与服务器沟通联系；
-  - 被间歇性（intermittently）的连接；
-  - 拥有动态地址；
-  - 客户之间不直接联系；
+    > 在许多传统的CS模型中，所有的请求都会集中到几台服务器上，随着用户数量的增加，服务器可能会过载。然而在 P2P 网络中，每个节点都可以成为数据的提供者和消费者，因此负载可以在所有的节点上进行分布，使得网络能够更好地扩展。
+    > 然而，这并不意味着 P2P 网络没有扩展性问题。例如，当网络规模变得非常大时，查找和路由可能会变得复杂和昂贵。因此，需要使用高效的查找和路由算法，例如分布式哈希表（DHT），来确保网络的可扩展性。
 
-#### P2P Architecture
-
-- 没有总是打开的服务器
-- 任意一对主机(peer)直接相互通信
-- 对等方间歇连接并且可以改变 IP 地址
-- 自我可扩展性 self-scalability
-
-> P2P (Peer-to-Peer) 网络的自我可扩展性（self-scalability）是指网络的能力，随着参与节点数量的增加，其性能和效率不会显著下降，甚至可能会提高。这种特性是由 P2P 网络的分散性和去中心化特性赋予的。
-> 在许多传统的客户端-服务器模型中，所有的请求都会集中到一台或几台服务器上，随着用户数量的增加，服务器可能会遭受过载，导致性能下降。然而，在 P2P 网络中，每个节点都可以成为数据的提供者和消费者，因此负载可以在所有的节点上进行分布，使得网络能够更好地扩展。
-> 然而，这并不意味着 P2P 网络没有扩展性问题。例如，当网络规模变得非常大时，查找和路由可能会变得复杂和昂贵。因此，需要使用高效的查找和路由算法，例如分布式哈希表（DHT），来确保网络的可扩展性。
-
-#### C/S 与 P2P 混合的体系结构
-
-<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-26-19-44-10.webp" alt="">
+  </TabItem>
+</Tabs>
 
 ### Processes Communicating
 
-#### Client And Server Process
+两个进程可通过网络发送报文来完成通信，使用 IP 地址和端口号来标识进程
 
-- 进程：运行在端系统中的程序
-- 同一主机上的两个进程通过内部进程通信机制进行通信
-- 不同主机上的进程通过交换报文(message)相互通信
+- Socket: 为应用程序与网络之间提供了数据交互的 API，如建立连接、发送和接收数据等
+- ID Address: 用于唯一标识 Internet 中的主机
+- Port: 用于标识主机上的特定进程，如 80 端口用于 HTTP 服务，25 端口用于 SMTP 服务等
 
-> **客户进程**：发起通信的进程；
-> **服务进程**：在会话开始时等待联系的进程；
-
-#### The Interface Between the Process and the Computer Network
-
-大多数应用程序由许多**互相通信的进程对**(pairs of communicating processes)组成,任何两个进程之间发送的报文都需要经由底层的网络;**套接字 Socket**作为软件接口,向进程提供发送和接受报文功能
-
-由于该套接字是建立网络应用的可编程接口，因此套接字被称为应用程序和网络之间的**应用程序编程接口（Application Programming Interface，API）**。
-<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-26-20-09-22.webp" alt="">
-
-#### Addressing Processes
-
-- **IP Address** 用于唯一标识 Internet 上的主机
-- **Port** 用于标识目的主机的接受进程
-
-> 发送进程还必须识别在主机中运行的接收进程（更具体地说，是接收信息的 Socket）。这个信息是必要的，因为通常一个主机可能运行着许多网络应用。目标端口号就是为了这个目的而设立的。一些流行的应用已经被分配了特定的端口号。例如，Web 服务器被标识为 80 号端口。邮件服务器进程（使用 SMTP 协议）被标识为 25 号端口。
-
-<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-26-20-15-36.webp" style="width:50%;" alt=""/>
-
-### Transport Services Available to Applications
-
-1. **Reliable Data Transfer**
-   - 一些应用需要 100%可靠数据传输,如金融应用
-   - loss-tolerant applications 允许丢包(loss),常见的有多媒体应用,如视频通话等
-2. **Throughout**
-   - 具有吞吐量要求是应用程序被称为带宽敏感的应用（bandwidth-sensitive application）；
-   - 弹性应用（elastic application）能够根据当时可用的带宽或多或少地利用可供使用的吞吐量；
-3. **Timing**
-   - 低延时（low delay）要求；
-4. **Security**
-
-   - 传输数据的 Cryption&Decryption
-   - Confidentiality(保密性)
-     - 数据完整性 Data Integrity
-     - 终端验证 end-point authentication
-
-   | Application   | Data Loss     | Throughtput          | Time-Senstive  |
-   | ------------- | ------------- | -------------------- | -------------- |
-   | 文件传输      | No loss       | elastic              | no             |
-   | 电子邮件      | No loss       | elastic              | no             |
-   | Web           | No loss       | elastic              | no             |
-   | 实时音频/视频 | Loss-tolernet | 音频: 几 kbps-1Mbps  | yes,100 msec   |
-   | 存储音频/视频 | Loss-tolernet | 视频:10kbps-5Mbps    | yes, 几秒      |
-   | 交互式游戏    | Loss-tolernet | 视频:10kbps-5Mbps    | yesy, 100 msec |
-   | 即时讯息      | No loss       | 几 kbps 以上 elastic | yes and no     |
-
-### Transport Services Provided by the Internet
-
-<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-26-23-27-14.webp" alt="">
+<img
+  src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-26-20-09-22.webp"
+  alt="Socket"
+/>
 
 ### Application Layer Protocols
 
-**应用层协议**（Application Layer Protocols）定义了在不同端系统上运行的应用程序进程如何相互传递消息。具体来说，应用层协议定义了：
+**应用层协议**（Application Layer Protocols）定义了在不同端系统上运行的应用程序进程如何相互传递消息：
 
 - 交换的消息类型，例如，请求消息和响应消息
 - 报文类型的语法：报文中的各个字段及其详细描述
 - 字段的语义，即包含在字段中的信息的含义
 - 进程何时、如何发送报文及对报文进行响应
 
-应用层协议根据其是否公开可供所有人使用，可以分为两种类型：公共领域协议和专用协议:
+应用层协议根据其是否公开可供所有人使用，可以分为两种类型：公共协议和专用协议:
 
-- **公共领域协议**:由 RFC 文档定义,可供所有人使用,例如 HTTP,SMTP,POP3
+- **公共协议**:由 RFC 文档定义,可供所有人使用,例如 HTTP,SMTP,POP3
 - **专用协议**:由公司或组织定义,例如 Skype, KaZaA
-
-> RFC，全称是 Request for Comments（征求意见书），是由互联网工程任务组（IETF）出版的一系列备忘录，用于描述、规定或者建议互联网标准、协议、程序、或者概念。RFC 文档是互联网技术和协议的主要来源，包括了诸如 TCP/IP、HTTP、SMTP 等核心互联网协议的规范。
-> RFC 文档的内容可以是互联网社区的共识、工作小组的产品、个人的观点，或者只是为了获取公众的反馈。RFC 文档一旦发布，编号就不再改变，如果需要对 RFC 进行修改或者更新，会以新的 RFC 编号发布。
-> 值得注意的是，尽管 RFC 是"征求意见书"的缩写，但是大部分 RFC 文档实际上是互联网标准的官方规范，而不仅仅是征求意见的提案。
-
-### Network Applications
-
-<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-26-18-20-57.webp" alt="">
 
 ## The Web and HTTP
 
@@ -176,34 +123,6 @@ http://www.someschool.edu/someDept/pic.gif
 >   - 浏览器解析该 HTML 文件：客户端浏览器接收服务器返回的 HTML 文件，并解析其中的内容。
 >   - 显示在浏览器端：浏览器根据解析结果渲染页面，并显示在用户界面上。
 
-### Non-Persistent and Persistent Connections
-
-**非持久 HTTP 连接**
-
-- 每个 TCP 连接上只传送一个对象，下载多个对象需要建立多个 TCP 连接
-- HTTP/1.0 使用非持久 HTTP 连接
-
-**持久 HTTP 连接**
-
-- 一个 TCP 连接上可以传送多个对象
-- HTTP/1.1 默认使用持久 HTTP 连接
-
-<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem;">
-  <!-- Column 1-->
-  <div style="flex: 1;">
-    <img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-15-01-03.webp" alt="" style="zoom: 80%"/>
-  </div>
-  <!-- Column 2-->
-  <div style="flex: 1;">
-    <img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-15-35-15.webp" alt="" style="zoom: 80%"/>
-  </div>
-</div>
-
-> [!tip] ReadMore
->
-> HTTP 格式: [[HTTP 协议#HTTP Message]]
-> HTTPS: [[HTTPS 协议]]
-
 ### User-Server Interaction: Cookies
 
 前面提到 HTTP 服务器为无状态的，而一个 Web 站点通常希望能够识别用户，可能是因为服务器希望限制用户的访问，或者因为它希望把内容与用户身份联系起来。为此，HTTP 使用了 cookie(最初被称作 magic cookie)🍪
@@ -216,7 +135,10 @@ cookie technology has four components:
 3. a cookie file kept on the user’s end system and managed by the user’s browser
 4. a back-end database at the Web site.
 
-<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-17-30-02.webp" alt="">
+<img
+  src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-17-30-02.webp"
+  alt=""
+/>
 
 **Cookies 跟踪用户**
 cookies 允许网站更加了解你
@@ -238,7 +160,12 @@ Cookies 不适合游动用户
 > LAN delay: 在局域网中传输一个报文所需的时间
 > Access delay: 在两个路由器之间传输一个报文所需的时间
 > Internet delay: 在因特网中传输一个报文所需的时间
-> <img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-18-50-25.webp" style="width:50%;" alt=""/>
+>
+> <img
+>   src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-18-50-25.webp"
+>   style="width:50%;"
+>   alt=""
+> />
 
 **Request Steps:**
 
@@ -247,60 +174,13 @@ Cookies 不适合游动用户
 3. 如果缓存器中没有该对象，它就打开一个与该对象的初始服务器的 TCP 连接。Web 缓存器向初始服务器发送请求，并得到初始服务器的响应；
 4. 当 Web 缓存器接受对象后，在本地创建给对象的副本，并向客户发送响应报文返回该对象；
    通过使用**内容分发网络（Content Distribution Network，CDN）**，Web 缓存器正在因特网中发挥着越来越重要的作用。
-   
-<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-17-35-49.webp" alt="Cache">
 
-尽管高速缓存器能减少用户感受到的响应时间，但引入了一个新的问题，即存放在缓存器中的副本可能陈旧的。为验证缓存器中的副本是否仍然有效，你可以使用**条件 GET 请求**,参照如下 python 代码
+<img
+  src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-17-35-49.webp"
+  alt="Cache"
+/>
 
-```python
-import socket
-
-# 定义报文内容和首部
-request = "GET /index.html HTTP/1.1\r\n"
-request += "Host: www.baidu.com\r\n"
-request += "If-Modified-Since: Sat, 01 Jan 2022 00:00:00 GMT\r\n"
-request += "Connection: close\r\n\r\n"
-
-# 创建套接字并连接目标服务器
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(('www.baidu.com', 80))
-
-# 发送报文
-s.send(request.encode())
-
-response = b""
-while True:
-    data = s.recv(4096)
-    if not data:
-        break
-    response += data
-
-print(response.decode())
-s.close()
-
-[OUTPUT]
-HTTP/1.1 200 OK
-Accept-Ranges: bytes
-Cache-Control: no-cache
-Content-Length: 9508
-Content-Type: text/html
-Date: Fri, 29 Mar 2024 13:00:29 GMT
-P3p: CP=" OTI DSP COR IVA OUR IND COM "
-P3p: CP=" OTI DSP COR IVA OUR IND COM "
-Pragma: no-cache
-Server: BWS/1.1
-Set-Cookie: BAIDUID=E79C6BEF6A7F8AA35FBC1FD6742520D8:FG=1; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com
-Set-Cookie: BIDUPSID=E79C6BEF6A7F8AA35FBC1FD6742520D8; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com
-Set-Cookie: PSTM=1711717229; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com
-Set-Cookie: BAIDUID=E79C6BEF6A7F8AA30F2B2E6688EB66DE:FG=1; max-age=31536000; expires=Sat, 29-Mar-25 13:00:29 GMT; domain=.baidu.com; path=/; version=1; comment=bd
-Traceid: 1711717229235279668210477533425964763324
-Vary: Accept-Encoding
-X-Ua-Compatible: IE=Edge,chrome=1
-X-Xss-Protection: 1;mode=block
-Connection: close
-# html file
-data data ... data
-```
+尽管高速缓存器能减少用户感受到的响应时间，但引入了一个新的问题，即存放在缓存器中的副本可能陈旧的。为验证缓存器中的副本是否仍然有效，你可以使用**条件 GET 请求**
 
 ## Electronic Mail in the Internet
 
@@ -314,7 +194,10 @@ data data ... data
   - 邮箱（mailbox）包括用户传入的消息；
   - 报文队列（message queue）中为待发送的邮件报文；
 - **简单邮件传送协议 SMTP**
-  <img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Clip_2024-10-12_12-19-36.webp" alt=" A high-level view of the Internet e-mail system">
+  <img
+    src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Clip_2024-10-12_12-19-36.webp"
+    alt=" A high-level view of the Internet e-mail system"
+  />
 
 ### SMTP
 
@@ -326,7 +209,10 @@ data data ... data
 - SMTP 要求邮件消息(header & body)必须是 7-bit ASCII
 - SMTP 服务器使用 CRLF.CRLF 来判断邮件消息的结束
 
-<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-28-09-59-42.webp" alt="">
+<img
+  src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-28-09-59-42.webp"
+  alt=""
+/>
 
 - **用户代理与发送服务器的连接**：用户代理（例如电子邮件客户端）使用 SMTP 协议与发送服务器建立连接。连接过程包括身份验证和协议握手等步骤。
   用户代理提交邮件：
@@ -376,12 +262,16 @@ base64 encoded data .....
 ### Mail Access Protocols
 
 收件人的用户代理不能使用 SMTP 得到报文，因为取得报文是一个 pull 操作，而 SMTP 协议是一个 push 协议。通过引用一个特殊的邮件访问协议来解决这个问题，该协议将收件人邮件服务器上的报文传送给他的本地
-<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-28-13-22-24.webp" alt="">
+
+<img
+  src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-28-13-22-24.webp"
+  alt=""
+/>
 
 - SMTP: 递送/存储邮件消息到接收者邮件服务器
 - 邮件访问协议: 从服务器获取邮件消息
   - POP3: Post Office Protocol-Version3 邮局协议[RFC 1939]110 端口号
-    身份认证 (代理 <-->服务器) 并 下载邮件消息
+    身份认证 (`代理 <-->服务器`) 并 下载邮件消息
   - IMAP: Internet Message Access Protocol [RFC 3501] 143 端口
     更多功能特征,允许用户像对待本地邮箱那样操纵远程邮箱的邮件
   - HTTP: Hotmail , Yahoo! Mail, etc.

@@ -12,6 +12,7 @@ import { Tabs, TabItem } from "@astrojs/starlight/components";
 > **Links**
 >
 > - https://www.w3schools.com/cssref/trysel.php，在线测试各种 CSS 选择器的效果。
+> - [The truth about CSS selector performance](https://blogs.windows.com/msedgedev/2023/01/17/the-truth-about-css-selector-performance/) CSS 选择器性能分析
 
 ## Basic Selectors
 
@@ -101,11 +102,11 @@ h1,
   </TabItem>
 </Tabs>
 
-| Selector             | Example           | Description                                       |
-| -------------------- | ----------------- | ------------------------------------------------- |
-| `element.class`      | `h1.title`        | 选择既是 `h1` 元素又包含 `title` 类名的元素       |
-| `.class1.class2`     | `.title.is-3`     | 选择同时拥有 `title` 和 `is-3` 类名的元素         |
-| `element[attr=value] | `input[required]` | 选择既是 `input` 元素又拥有 `required` 属性的元素 |
+| Selector              | Example           | Description                                       |
+| --------------------- | ----------------- | ------------------------------------------------- |
+| `element.class`       | `h1.title`        | 选择既是 `h1` 元素又包含 `title` 类名的元素       |
+| `.class1.class2`      | `.title.is-3`     | 选择同时拥有 `title` 和 `is-3` 类名的元素         |
+| `element[attr=value]` | `input[required]` | 选择既是 `input` 元素又拥有 `required` 属性的元素 |
 
 ## Combinators
 
@@ -132,7 +133,6 @@ CSS 预处理器（如 Sass、Less）以及一些现代 CSS 框架支持嵌套�
 	</TabItem>
 	<TabItem label="With Syntax Sugar">
 		```css
-		/* Nesting 示例 */
 		.card {
 			background: #fff;
 			> h1 { font-size: 30px; }
@@ -166,10 +166,36 @@ CSS 预处理器（如 Sass、Less）以及一些现代 CSS 框架支持嵌套�
 
 CSS 还支持一些特殊的 `@` 规则，用于定义媒体查询、字体导入等。
 
-- `@media`: 可用于定义响应式设计的媒体查询，例如 `@media (max-width: 600px) { ... }`
-- `@font-face`: 定义自定义字体
-- `@import`: 导入外部 CSS 文件
-- ...
+### @media
+
+`@media`选择器可以根据不同的设备或屏幕尺寸应用不同的样式规则，以实现响应式设计。
+
+语法 `@media (condition) <mediatype> and (expression) { /* CSS Rules */ }`
+
+- 常用媒体类型 (Media Types)
+
+  - `screen`: 用于电脑屏幕、平板电脑和智能手机（最常用）。
+  - `print`: 用于打印机和打印预览模式。
+  - `all`: 默认值。用于所有媒体类型设备。
+
+- 常用媒体特性 (Media Features)
+
+  - `max-width`: 如果视口`<=`此宽度，则应用样式
+  - `min-width`: 如果视口`>=`此宽度，则应用样式
+  - `orientation`: 检测设备处于 landscape（横屏，宽 > 高）还是 portrait（竖屏，高 > 宽）模式。
+
+```css
+/* 基础样式 (移动优先) */
+.container {
+  width: 40px;
+}
+/* 大型设备 (桌面电脑 - 992px 及以上) */
+@media only screen and (min-width: 992px) {
+  .container {
+    width: 960px;
+  }
+}
+```
 
 [^1]: [Pseudo-classes - CSS | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes)
 [^2]: [Pseudo-elements - CSS | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements)

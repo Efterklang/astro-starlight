@@ -259,7 +259,7 @@ Annotation 可以像修饰符一样被使用，可用于修饰包、类、构造
 
 在 JavaSE 中，注解的使用目的比较简单，例如标记过时的功能，忽略警告等。在 JavaEE/Android 中注解占据了更重要的角色，例如用来**<u>配置应用程序的任何切面</u>**，代替 JavaEE 旧版中所遗留的繁冗代码和 XML 配置等。
 
-未来的开发模式都是基于注解的，JPA 是基于注解的，Spring2.5 以上都是基于注解的，Hibernate3.x 以后也是基于注解的，现在的 Struts2 有一部分也是基于注解的了，注解是一种趋势，一定程度上可以说：==框架 = 注解 +反射 + 设计模式==。  
+未来的开发模式都是基于注解的，JPA 是基于注解的，Spring2.5 以上都是基于注解的，Hibernate3.x 以后也是基于注解的，现在的 Struts2 有一部分也是基于注解的了，注解是一种趋势，一定程度上可以说：==框架 = 注解 +反射 + 设计模式==。
 
 ### 10.2.2 Annotation的使用示例
 
@@ -284,7 +284,7 @@ Annotation 可以像修饰符一样被使用，可用于修饰包、类、构造
   * @SuppressWarnings：抑制编译器警告。
 * 示例三：跟踪代码依赖性，实现替代配置文件功能
   * Servlet3.0 提供了注解 (annotation)，使得不再需要在 web.xml 文件中进行 Servlet 的部署；
-  * spring 框架中关于“事务”的管理。  
+  * spring 框架中关于“事务”的管理。
 
 ```java
 import java.util.ArrayList;
@@ -377,7 +377,7 @@ Target: 用于指定被修饰的 Annotation 能用于修饰哪些程序元素。
 
 Documented: 表示所修饰的注解在被 javadoc 解析时，保留下来。
 
-Inherited: 被它修饰的 Annotation 将具有继承性  
+Inherited: 被它修饰的 Annotation 将具有继承性
 
 ```java
 import org.testng.annotations.Test;

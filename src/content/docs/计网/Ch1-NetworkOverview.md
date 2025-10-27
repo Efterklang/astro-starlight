@@ -33,7 +33,7 @@ tags:
 <img src="https://assets.vluv.space/UESTC/Network/Ch1-NetworkOverview/ComputerNetwork01-2024-01-30-00-00-56.webp" alt="基于ISP的三层结构Internet示意图">
 
 > Tier 1 ISP：拥有全球范围的网络基础设施（相当于互联网的 “高速公路主干道”），无需向其他 ISP 付费，可与其他第一层 ISP 免费交换数据。
-> 
+>
 > - AT&T（美国达拉斯）、Verizon（美国纽约）：北美地区核心主干网运营商，支撑美洲与全球的数据传输；
 > - 中国电信 / 中国联通：覆盖中国并连接全球的主干网，是国内数据接入国际互联网的关键；
 > - Telia Company（瑞典斯德哥尔摩）：欧洲主干网核心，覆盖欧洲及周边地区。

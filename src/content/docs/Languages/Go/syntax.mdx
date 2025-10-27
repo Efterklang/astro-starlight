@@ -1,0 +1,333 @@
+---
+title: 基本语法
+date: 2025-11-21
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+## Variables & Constants
+
+### 变量声明 (Variable Declaration)
+
+<Tabs>
+<TabItem label="标准声明">
+
+```go
+// 声明一个变量，默认值为零值 (int 为 0)
+var age int
+
+// 声明并初始化
+var name string = "Go"
+
+// 批量声明
+var (
+    x int    = 10
+    y string = "lang"
+)
+```
+
+</TabItem>
+<TabItem label="短变量声明 (Short Declaration)">
+
+在函数内部，可以使用 `:=` 进行类型推断和初始化
+
+```go
+age := 30
+name := "Go"
+x, y := 10, "lang"
+```
+
+</TabItem>
+</Tabs>
+
+### 常量声明 (Constant Declaration)
+
+常量在编译时确定，不可修改。
+
+```go
+const Pi = 3.14159
+const Version = "1.0.0"
+
+const (
+    StatusOK    = 200
+    StatusNotFound = 404
+)
+```
+
+### iota
+
+`iota` 是一个特殊的常量，可以被编译器修改。在一个 `const` 声明块中，`iota` 从 0 开始，每行加 1。
+
+```go
+const (
+    A = iota // A = 0
+    B = iota // B = 1
+    C = iota // C = 2
+)
+
+const (
+    Read   = 1 << iota // 1 << 0 = 1
+    Write  = 1 << iota // 1 << 1 = 2
+    Execute = 1 << iota // 1 << 2 = 4
+)
+```
+
+## Basic Data Types
+
+| 类型                                          | 描述                                  | 示例                   |
+| --------------------------------------------- | ------------------------------------- | ---------------------- |
+| `int`                                         | 整数 (大小依赖平台, 32 或 64 位)      | `var i int = 10`       |
+| `int8`, `int16`, `int32`, `int64`             | 特定位数的有符号整数                  | `var i32 int32 = -100` |
+| `uint`, `uint8`, `uint16`, `uint32`, `uint64` | 特定位数的无符号整数                  | `var u32 uint32 = 100` |
+| `float32`, `float64`                          | 浮点数                                | `var f float64 = 3.14` |
+| `complex64`, `complex128`                     | 复数                                  | `c := 3 + 4i`          |
+| `bool`                                        | 布尔值 (`true` 或 `false`)            | `var b bool = true`    |
+| `string`                                      | 字符串 (UTF-8 编码)                   | `s := "Hello, World!"` |
+| `byte`                                        | `uint8` 的别名                        | `var b byte = 'a'`     |
+| `rune`                                        | `int32` 的别名, 代表一个 Unicode 码点 | `var r rune = '中'`    |
+
+## Composite Data Types
+
+### Array
+
+长度固定的序列。
+
+```go
+// 声明一个包含 5 个整数的数组
+var a [5]int
+a[0] = 1
+
+// 声明并初始化
+b := [3]int{1, 2, 3}
+
+// 编译器自动计算长度
+c := [...]int{1, 2, 3, 4}
+```
+
+### Slice
+
+动态大小的序列，基于数组实现。有长度和容量两个属性。
+
+- 长度 (length): 切片当前包含的元素数量。
+- 容量 (capacity): 切片在不分配新底层数组的情况下，可以容纳的最大元素数量。
+
+<Tabs>
+<TabItem label="声明与初始化">
+
+```go
+// 声明一个切片
+var s []int
+
+// 使用 make 创建切片
+// 创建一个长度为 5，容量为 10 的切片
+s1 := make([]int, 5, 10)
+
+// 使用字面量初始化
+s2 := []int{1, 2, 3}
+```
+
+</TabItem>
+<TabItem label="常用操作">
+
+```go
+s := []int{1, 2, 3, 4, 5}
+
+// 获取长度和容量
+len(s) // 5
+cap(s) // 5
+
+// 追加元素
+s = append(s, 6) // s is now {1, 2, 3, 4, 5, 6}
+
+// 切片操作 (slicing)
+sub := s[1:3] // {2, 3} (不包括索引3)
+```
+
+</TabItem>
+</Tabs>
+
+### Map
+
+键值对集合。
+
+<Tabs>
+<TabItem label="声明与初始化">
+
+```go
+// 声明一个 map
+var m map[string]int
+
+// 使用 make 创建
+m = make(map[string]int)
+
+// 声明并初始化
+m2 := map[string]int{
+    "one": 1,
+    "two": 2,
+}
+```
+
+</TabItem>
+<TabItem label="常用操作">
+
+```go
+m := make(map[string]int)
+
+// 添加或更新元素
+m["age"] = 30
+
+// 获取元素
+age := m["age"] // 30
+
+// 删除元素
+delete(m, "age")
+
+// 检查键是否存在
+value, ok := m["age"]
+if ok {
+    // "age" 存在
+} else {
+    // "age" 不存在
+}
+```
+
+</TabItem>
+</Tabs>
+
+### Struct
+
+字段的集合，用于组织数据。
+
+```go
+type Person struct {
+    Name string
+    Age  int
+}
+
+// 初始化
+p1 := Person{Name: "Alice", Age: 30}
+
+// 或者按顺序
+p2 := Person{"Bob", 25}
+
+// 访问字段
+fmt.Println(p1.Name) // "Alice"
+```
+
+#### 结构体标签
+
+结构体标签是一段 字符串元数据，编译进可执行文件中，供其他库（比如 yaml、json、gorm 等）通过 反射 来读取。
+
+例如以下定义，将`Config.Server`字段与`yaml`中的 server 字段绑定
+
+```go
+type Config struct {
+    Server   ServerConfig   `yaml:"server"`
+    Database DatabaseConfig `yaml:"database"`
+}
+```
+
+## Control Flow
+
+### if
+
+```go
+x := 10
+if x > 5 {
+    fmt.Println("x is greater than 5")
+} else {
+    fmt.Println("x is not greater than 5")
+}
+
+// if 语句可以包含一个初始化语句
+if y := calculate(); y > 10 {
+    fmt.Println("y is greater than 10")
+}
+```
+
+### for
+
+Go 只有 `for` 循环。
+
+<Tabs>
+<TabItem label="基本 for 循环">
+
+```go
+for i := 0; i < 5; i++ {
+    fmt.Println(i)
+}
+
+sum := 1
+for sum < 100 {
+    sum += sum
+}
+
+for {
+    // ...
+    break // 使用 break 退出
+}
+```
+
+</TabItem>
+<TabItem label="for-range 循环">
+
+```go
+// 遍历切片或数组
+nums := []int{1, 2, 3}
+for index, value := range nums {
+    fmt.Printf("index: %d, value: %d\n", index, value)
+}
+
+// 遍历 map
+m := map[string]int{"a": 1, "b": 2}
+for key, value := range m {
+    fmt.Printf("key: %s, value: %d\n", key, value)
+}
+
+// 遍历字符串
+for index, runeValue := range "Go" {
+    fmt.Printf("%#U starts at byte position %d\n", runeValue, index)
+}
+```
+
+</TabItem>
+</Tabs>
+
+### switch
+
+`switch` 语句比其他语言更灵活。
+
+<Tabs>
+<TabItem label="基本 switch">
+
+```go
+day := "Sunday"
+switch day {
+case "Monday", "Tuesday", "Wednesday", "Thursday", "Friday":
+    fmt.Println("Weekday")
+case "Saturday", "Sunday":
+    fmt.Println("Weekend")
+default:
+    fmt.Println("Invalid day")
+}
+// case 默认自带 break
+```
+
+</TabItem>
+<TabItem label="无表达式 switch">
+
+```go
+// 类似 if-else if-else
+hour := 14
+switch {
+case hour < 12:
+    fmt.Println("Morning")
+case hour < 18:
+    fmt.Println("Afternoon")
+default:
+    fmt.Println("Evening")
+}
+```
+
+</TabItem>
+</Tabs>

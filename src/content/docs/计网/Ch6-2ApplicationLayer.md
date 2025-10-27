@@ -48,7 +48,7 @@ cover: https://assets.vluv.space/cover/Networks/application_layer2.webp
 <img src="https://assets.vluv.space/UESTC/Network/Ch6-2ApplicationLayer/Ch6-2ApplicationLayer-2024-03-28-14-18-29.webp" alt="">
 
 > [!info]
-> 
+>
 > Windows系统可以通过在powershell运行 `ipconfig /all` 命令查看本地 DNS 服务器的地址。
 >
 > ```powershell

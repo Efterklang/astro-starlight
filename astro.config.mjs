@@ -32,13 +32,12 @@ export default defineConfig({
 				{
 					label: 'Guides',
 					items: [
-						// Each item here is one entry in the navigation menu.
 						{ label: 'About', slug: 'guides/example' },
 					],
 				},
 				{
-					label: 'Java',
-					autogenerate: { directory: 'Java' },
+					'label': 'Languages',
+					autogenerate: { directory: 'Languages' },
 				},
 				{
 					label: 'Algorithm',
@@ -52,12 +51,8 @@ export default defineConfig({
 					label: 'Network',
 					autogenerate: { directory: '计网' },
 				},
-        {
-					label: 'CSS',
-					autogenerate: { directory: 'css' },
-				},
-        {
-          label: 'Linux',
+				{
+					label: 'Linux',
 					autogenerate: { directory: 'Linux' },
 				}
 			],
