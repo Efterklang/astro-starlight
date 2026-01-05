@@ -28,7 +28,8 @@ export default defineConfig({
 				themes: ['catppuccin-mocha', 'catppuccin-latte'],
 				plugins: [pluginLineNumbers(), pluginCollapsibleSections()],
 				styleOverrides: {
-					uiFontFamily: "Maple Mono CN, Maple Mono NF CN, monospace"
+					uiFontFamily: "Maple Mono CN, Maple Mono NF CN, monospace",
+					codeFontFamily: "Maple Mono NF CN, Maple Mono CN, monospace"
 				}
 			},
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/Efterklang' }],
