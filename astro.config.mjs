@@ -1,21 +1,25 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+// import tailwind from '@astrojs/tailwind';
 import starlight from '@astrojs/starlight';
 import catppuccin from "@catppuccin/starlight";
 import remarkMath from 'remark-math';
+import remarkCallout from "@r4ai/remark-callout";
 import rehypeMathJax from "rehype-mathjax"
+// import wikiLinkPlugin from "@flowershow/remark-wiki-link"
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections'
 import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
 // https://astro.build/config
 export default defineConfig({
 	markdown: {
-		remarkPlugins: [remarkMath],
+		remarkPlugins: [remarkMath, remarkCallout],
 		rehypePlugins: [rehypeMathJax],
 	},
 	integrations: [
 		starlight({
 			title: 'Vluv\'s Wiki',
+			customCss: ['./src/styles/callout.css'],
 			plugins: [catppuccin({
 				dark: { flavor: "mocha", accent: "lavender" },
 				light: { flavor: "latte", accent: "lavender" },

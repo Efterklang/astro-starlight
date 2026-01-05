@@ -1,0 +1,58 @@
+[data-callout] {
+  border-left: 3px solid currentColor;
+  border-radius: 0.25rem;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  background-color: var(--sl-color-gray-6);
+}
+
+[data-callout-title] {
+  font-weight: 600;
+  font-size: var(--sl-text-sm);
+  margin-bottom: 0.25rem;
+  color: var(--sl-color-text);
+}
+
+[data-callout-type="note"] {
+  border-color: var(--sl-color-blue);
+  color: var(--sl-color-blue-high);
+}
+
+[data-callout-type="tip"] {
+  border-color: var(--sl-color-green);
+  color: var(--sl-color-green-high);
+}
+
+[data-callout-type="warning"] {
+  border-color: var(--sl-color-orange);
+  color: var(--sl-color-orange-high);
+}
+
+[data-callout-type="important"] {
+  border-color: var(--sl-color-red);
+  color: var(--sl-color-red-high);
+}
+
+[data-callout-type="info"] {
+  border-color: var(--sl-color-blue);
+  color: var(--sl-color-blue-high);
+}
+
+[data-callout-type="tldr"] {
+  border-color: var(--sl-color-purple);
+  color: var(--sl-color-purple-high);
+}
+
+[data-callout-body] {
+  font-size: var(--sl-text-sm);
+  line-height: var(--sl-line-height);
+  color: var(--sl-color-gray-3);
+}
+
+[data-callout-body] p {
+  margin: 0;
+}
+
+[data-callout-body] p:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
