@@ -2,9 +2,11 @@
 title: 网络层数据平面 Network Layer:Data Plane
 date: 2024-03-27
 excerpt: 介绍网络层的主要功能——转发与路由，这两大核心方面分别由数据平面和控制平面负责，该篇主要介绍Data Plane，对比了传统的路由管理方式与SDN（软件定义网络）方法。阐述了网络服务模型的基本概念及路由器内部工作原理，包括输入输出端口处理、交换机制、排队策略及包调度等关键流程。此外，介绍互联网协议(IP)，涉及IPv4的数据报结构、地址分配，动态主机配置协议(DHCP)、网络地址转换(NAT)、ICMP协议以及IPv6的。
-categories: [Dev, Network]
-tags: [Network]
-thumbnail: https://assets.vluv.space/cover/Networks/network_layer1.webp
+categories:
+  - Dev
+  - Network
+tags:
+  - Network
 cover: https://assets.vluv.space/cover/Networks/network_layer1.webp
 ---
 
@@ -28,6 +30,7 @@ cover: https://assets.vluv.space/cover/Networks/network_layer1.webp
 
 每个路由器都有单独的路由算法组件，路由器之间通过交互来实现控制平面
 由路由算法决定了路由器转发表的内容
+
 <img src="https://assets.vluv.space/UESTC/Network/Ch4-1NetworkLayer/Ch4-1NetworkLayer-2024-05-14-15-19-16.webp" style="width:100%;" alt="Control Plane: The Traditional Approach">
 
 #### Control Plane: The SDN Approach

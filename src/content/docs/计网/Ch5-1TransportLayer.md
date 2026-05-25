@@ -182,5 +182,6 @@ Stop-and-Wait 方式发送方信道利用率很低，解决方案是**流水线�
 
 ### GBN & SR
 
-[[Ch3-1DataLinkLayer#回退 N 帧协议 Go-Back-N Protocol]]
-[[Ch3-1DataLinkLayer#选择重传协议 Selective Repeat Protocol]][udp/ip 硬件协议栈设计（三）：校验](https://zhuanlan.zhihu.com/p/184884139)
+- [[Ch3-1DataLinkLayer#回退 N 帧协议 Go-Back-N Protocol|GBN协议]]
+- [[Ch3-1DataLinkLayer#选择重传协议 Selective Repeat Protocol|SR协议]]
+- [udp/ip 硬件协议栈设计（三）：校验](https://zhuanlan.zhihu.com/p/184884139)
