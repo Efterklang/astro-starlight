@@ -125,8 +125,7 @@ http://www.someschool.edu/someDept/pic.gif
 
 ### User-Server Interaction: Cookies
 
-前面提到 HTTP 服务器为无状态的，而一个 Web 站点通常希望能够识别用户，可能是因为服务器希望限制用户的访问，或者因为它希望把内容与用户身份联系起来。为此，HTTP 使用了 cookie(最初被称作 magic cookie)🍪
-[Magic_cookie](https://en.wikipedia.org/wiki/Magic_cookie)
+前面提到 HTTP 服务器为无状态的，而一个 Web 站点通常希望能够识别用户，可能是因为服务器希望限制用户的访问，或者因为它希望把内容与用户身份联系起来。为此，HTTP 使用了 cookie(最初被称作 [magic cookie](https://en.wikipedia.org/wiki/Magic_cookie))🍪
 
 cookie technology has four components:
 
@@ -161,11 +160,7 @@ Cookies 不适合游动用户
 > Access delay: 在两个路由器之间传输一个报文所需的时间
 > Internet delay: 在因特网中传输一个报文所需的时间
 >
-> <img
->   src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-18-50-25.webp"
->   style="width:50%;"
->   alt=""
-> />
+> <img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-18-50-25.webp" alt=""/>
 
 **Request Steps:**
 
@@ -175,10 +170,7 @@ Cookies 不适合游动用户
 4. 当 Web 缓存器接受对象后，在本地创建给对象的副本，并向客户发送响应报文返回该对象；
    通过使用**内容分发网络（Content Distribution Network，CDN）**，Web 缓存器正在因特网中发挥着越来越重要的作用。
 
-<img
-  src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-17-35-49.webp"
-  alt="Cache"
-/>
+<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-27-17-35-49.webp" alt="Cache" />
 
 尽管高速缓存器能减少用户感受到的响应时间，但引入了一个新的问题，即存放在缓存器中的副本可能陈旧的。为验证缓存器中的副本是否仍然有效，你可以使用**条件 GET 请求**
 
@@ -194,10 +186,7 @@ Cookies 不适合游动用户
   - 邮箱（mailbox）包括用户传入的消息；
   - 报文队列（message queue）中为待发送的邮件报文；
 - **简单邮件传送协议 SMTP**
-  <img
-    src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Clip_2024-10-12_12-19-36.webp"
-    alt=" A high-level view of the Internet e-mail system"
-  />
+  <img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Clip_2024-10-12_12-19-36.webp" alt=" A high-level view of the Internet e-mail system" />
 
 ### SMTP
 
@@ -263,10 +252,7 @@ base64 encoded data .....
 
 收件人的用户代理不能使用 SMTP 得到报文，因为取得报文是一个 pull 操作，而 SMTP 协议是一个 push 协议。通过引用一个特殊的邮件访问协议来解决这个问题，该协议将收件人邮件服务器上的报文传送给他的本地
 
-<img
-  src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-28-13-22-24.webp"
-  alt=""
-/>
+<img src="https://assets.vluv.space/UESTC/Network/Ch6-1ApplicationLayer/Ch6-1ApplicationLayer-2024-03-28-13-22-24.webp" alt="" />
 
 - SMTP: 递送/存储邮件消息到接收者邮件服务器
 - 邮件访问协议: 从服务器获取邮件消息
