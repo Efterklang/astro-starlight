@@ -2,17 +2,17 @@
   "name": "",
   "version": "0.0.1",
   "dependencies": {
-    "@astrojs/starlight": "^0.35.2",
-    "@astrojs/tailwind": "^6.0.2",
-    "@catppuccin/starlight": "^1.0.1",
-    "@expressive-code/plugin-collapsible-sections": "^0.41.3",
-    "@expressive-code/plugin-line-numbers": "^0.41.3",
-    "@flowershow/remark-wiki-link": "^3.2.1",
+    "@astrojs/markdown-remark": "^7.3.0",
+    "@astrojs/starlight": "^0.42.0",
+    "@catppuccin/starlight": "^2.1.0",
+    "@expressive-code/plugin-collapsible-sections": "^0.44.2",
+    "@expressive-code/plugin-line-numbers": "^0.44.2",
+    "@flowershow/remark-wiki-link": "^4.0.0",
     "@r4ai/remark-callout": "^0.6.2",
-    "astro": "^5.6.1",
+    "astro": "^7.2.10",
     "rehype-mathjax": "^7.1.0",
     "remark-math": "^6.0.0",
-    "sharp": "^0.34.2"
+    "sharp": "^0.35.4"
   },
   "scripts": {
     "dev": "astro dev",

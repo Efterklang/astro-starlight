@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 // import tailwind from '@astrojs/tailwind';
 import starlight from '@astrojs/starlight';
 import catppuccin from "@catppuccin/starlight";
@@ -13,8 +14,10 @@ import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 // https://astro.build/config
 export default defineConfig({
 	markdown: {
-		remarkPlugins: [remarkMath, remarkCallout],
-		rehypePlugins: [rehypeMathJax],
+		processor: unified({
+			remarkPlugins: [remarkMath, remarkCallout],
+			rehypePlugins: [rehypeMathJax],
+		}),
 	},
 	integrations: [
 		starlight({
@@ -41,24 +44,24 @@ export default defineConfig({
 					],
 				},
 				{
-					'label': 'Languages',
-					autogenerate: { directory: 'Languages' },
+					label: 'Languages',
+					items: [{ autogenerate: { directory: 'Languages' } }],
 				},
 				{
 					label: 'Algorithm',
-					autogenerate: { directory: 'Algorithm' },
+					items: [{ autogenerate: { directory: 'Algorithm' } }],
 				},
 				{
 					label: 'ARM',
-					autogenerate: { directory: 'ARM-Processor' },
+					items: [{ autogenerate: { directory: 'ARM-Processor' } }],
 				},
 				{
 					label: 'Network',
-					autogenerate: { directory: '计网' },
+					items: [{ autogenerate: { directory: '计网' } }],
 				},
 				{
 					label: 'Linux',
-					autogenerate: { directory: 'Linux' },
+					items: [{ autogenerate: { directory: 'Linux' } }],
 				}
 			],
 		}),

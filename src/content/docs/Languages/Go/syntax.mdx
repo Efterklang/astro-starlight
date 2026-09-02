@@ -111,6 +111,13 @@ c := [...]int{1, 2, 3, 4}
 - 长度 (length): 切片当前包含的元素数量。
 - 容量 (capacity): 切片在不分配新底层数组的情况下，可以容纳的最大元素数量。
 
+> [!tip]- Make
+>
+> `make` 是 Go 语言用于创建内建引用类型（slice、map、channel）的内置函数。它分配并初始化对象，但不会返回指针，只返回对象本身
+> `s := make([]int, 5, 10)` 创建一个长度为 5，容量为 10 的整数切片
+> `m := make(map[string]int)` 创建一个空的字符串到整数的映射
+> `ch := make(chan int, 2)` 创建一个带有缓冲区大小为 2 的整数通道
+
 <Tabs>
 <TabItem label="声明与初始化">
 
@@ -193,6 +200,20 @@ if ok {
 
 </TabItem>
 </Tabs>
+
+### Channel
+
+channel 用于在 goroutine 之间传递数据。
+
+```go
+// 创建一个无缓冲区的 channel
+ch := make(chan int)
+go func() {
+    ch <- 42 // 发送数据
+}()
+v := <-ch    // 接收数据
+fmt.Println(v) // 输出 42
+```
 
 ### Struct
 
