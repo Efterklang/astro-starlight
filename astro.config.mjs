@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
-// import tailwind from '@astrojs/tailwind';
 import starlight from '@astrojs/starlight';
 import catppuccin from "@catppuccin/starlight";
 import remarkMath from 'remark-math';
